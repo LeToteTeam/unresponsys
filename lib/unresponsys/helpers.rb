@@ -34,6 +34,12 @@ class String
   end
 end
 
+class Date
+  def to_responsys
+    self.strftime('%Y-%m-%d %H:%M:%S')
+  end
+end
+
 class DateTime
   def to_responsys
     self.strftime('%Y-%m-%d %H:%M:%S')
