@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.require_paths         = ['lib']
   s.post_install_message  = 'responsys sucks :('
 
-  s.add_runtime_dependency 'httparty', '>= 0.13.7'
+  s.add_runtime_dependency 'httparty', '>= 0.13.5'
   s.add_runtime_dependency 'activesupport', '>= 4.1.0'
 
   s.add_development_dependency 'rspec', '>= 3.4.0'
