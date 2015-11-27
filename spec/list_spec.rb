@@ -9,7 +9,7 @@ describe Unresponsys::List do
       password: ENV['R_PASS'],
       debug:    false
     )
-    allow(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
 
     # make sure record exists
     list = Unresponsys::List.find('TestDataList')

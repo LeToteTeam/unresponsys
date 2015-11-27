@@ -9,7 +9,7 @@ describe Unresponsys::Event do
       password: ENV['R_PASS'],
       debug:    false
     )
-    allow(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
 
     VCR.use_cassette('get_existing_member') do
       list = Unresponsys::List.find('TestDataList')

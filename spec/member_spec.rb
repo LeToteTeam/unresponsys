@@ -9,7 +9,7 @@ describe Unresponsys::Member do
       password: ENV['R_PASS'],
       debug:    false
     )
-    allow(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
   end
 
   context 'when an existing member' do
