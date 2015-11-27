@@ -1,6 +1,5 @@
 class Unresponsys
   class Member
-
     DEFAULT_FIELDS = {
       'RIID_'                     => '',
       'EMAIL_ADDRESS_'            => '',
@@ -26,8 +25,6 @@ class Unresponsys
       EMAIL_SHA256_HASH_
     )
 
-    RECORD_DATA = { fieldNames: [], records: [[]], mapTemplateName: nil }
-
     MERGE_RULE = {
       insertOnNoMatch:            true,
       updateOnMatch:              'REPLACE_ALL',
@@ -42,11 +39,9 @@ class Unresponsys
       rejectRecordIfChannelEmpty: nil,
     }
 
-    # initialize a member
-    def initialize(list_name, fields)
-      # save these for later
+    def initialize(list, fields)
       @fields     = DEFAULT_FIELDS.merge(fields)
-      @list_name  = list_name
+      @list       = list
       @changed    = ['EMAIL_ADDRESS_']
 
       @fields.each_pair do |key, val|
@@ -58,12 +53,11 @@ class Unresponsys
         # getter
         self.class.send(:attr_reader, str)
 
-        if IMMUTABLE_FIELDS.exclude?(key)
-          # setter w/ change tracker
-          self.class.send(:define_method, "#{str}=") do |val|
-            @changed << key
-            self.instance_variable_set(var, val)
-          end
+        # setter
+        next if IMMUTABLE_FIELDS.include?(key)
+        self.class.send(:define_method, "#{str}=") do |val|
+          @changed << key
+          self.instance_variable_set(var, val)
         end
       end
     end
@@ -73,44 +67,33 @@ class Unresponsys
     end
 
     def list
-      @list_name
+      @list.name
     end
 
-    # create or update the member
     def save
-      body = { recordData: RECORD_DATA.deep_dup, mergeRule: MERGE_RULE.dup }
-
+      record_data = { fieldNames: [], records: [[]], mapTemplateName: nil } }
       @fields.each_pair do |key, val|
         # can't send unless val changed or API breaks
         next unless @changed.include?(key)
 
-        body[:recordData][:fieldNames] << key
+        record_data[:fieldNames] << key
         var = "@#{key.downcase.chomp('_')}".to_sym
         val = self.instance_variable_get(var)
         val = val.to_responsys
-        body[:recordData][:records][0] << val
+        record_data[:records][0] << val
       end
 
-      r = Unresponsys::Client.post("/lists/#{@list_name}/members", body: body.to_json)
+      options = { body: { recordData: record_data, mergeRule: MERGE_RULE.dup }.to_json }
+      r = Unresponsys::Client.post("/lists/#{@list.name}/members", body: options)
       return false if r['recordData']['records'][0][0].include?('MERGEFAILED')
       @changed = ['EMAIL_ADDRESS_']
       self.instance_variable_set(:@riid, r['recordData']['records'][0][0])
       true
     end
 
-    # delete the member from the list
     def delete
       self.email_permission_status = 'O'
       self.save
-    end
-
-    def deleted?
-      self.email_permission_status == 'O'
-    end
-
-    # access a member's events
-    def events
-      @events ||= Events.new(self)
     end
 
     # allow to access custom fields on new record
@@ -130,16 +113,18 @@ class Unresponsys
       end
     end
 
+    def events
+      @events ||= Events.new(self)
+    end
+
     class Events
       def initialize(member)
         @member = member
       end
 
-      # initialize a new event
       def new(event, properties = {})
         Event.new(member: @member, event: event, properties: properties)
       end
     end
-
   end
 end

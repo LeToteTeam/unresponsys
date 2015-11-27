@@ -18,13 +18,18 @@ class Unresponsys
       end
     end
 
+    def self.get(path, options = {}, &block)
+      r = perform_request Net::HTTP::Get, path, options, &block
+      handle_error(r)
+    end
+
     def self.post(path, options = {}, &block)
       r = perform_request Net::HTTP::Post, path, options, &block
       handle_error(r)
     end
 
-    def self.get(path, options = {}, &block)
-      r = perform_request Net::HTTP::Get, path, options, &block
+    def self.delete(path, options = {}, &block)
+      r = perform_request Net::HTTP::Delete, path, options, &block
       handle_error(r)
     end
 
@@ -50,6 +55,5 @@ class Unresponsys
       self.class.base_uri("#{r['endPoint']}/rest/api/v1")
       true
     end
-
   end
 end

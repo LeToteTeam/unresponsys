@@ -108,7 +108,7 @@ describe Unresponsys::Member do
       it 'sets opt-out status' do
         VCR.use_cassette('delete_existing_member') do
           @member.delete
-          expect(@member.deleted?).to eq(true)
+          expect(@member.email_permission_status).to eq('O')
         end
       end
     end
