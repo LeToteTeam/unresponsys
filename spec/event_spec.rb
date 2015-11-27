@@ -17,7 +17,7 @@ describe Unresponsys::Event do
     end
   end
 
-  context '#save' do
+  describe '#save' do
     context 'without extra params' do
       before(:each) do
         @event = @member.events.new('Sign_Up')

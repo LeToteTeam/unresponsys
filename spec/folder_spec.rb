@@ -8,7 +8,7 @@ describe Unresponsys::Folder do
   end
 
   context do
-    before(:each) do
+    before :each do
       @folder = Unresponsys::Folder.find('TestData')
     end
 

@@ -5,6 +5,11 @@ class Object
 end
 
 class String
+  def is_responsys_i?
+    return false if self.include?('.')
+    !!Integer(self) rescue false
+  end
+
   def is_responsys_f?
     !!Float(self) rescue false
   end
@@ -27,6 +32,7 @@ class String
   end
 
   def to_responsys
+    return self.to_i if self.is_responsys_i?
     return self.to_f if self.is_responsys_f?
     return self.to_responsys_time if self.is_responsys_time?
     return self.to_responsys_bool if self.is_responsys_bool?

@@ -7,7 +7,6 @@ class Unresponsys
       @fields.each_pair do |key, val|
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
-        val = val.to_responsys
         self.instance_variable_set(var, val)
 
         if key == 'ID_'
@@ -28,15 +27,15 @@ class Unresponsys
         record_data[:records][0] << val
       end
 
-      options = { body: { recordData: record_data, insertOnNoMatch: true, updateOnMatch: 'REPLACE_ALL' } }
+      options = { body: { recordData: record_data, insertOnNoMatch: true, updateOnMatch: 'REPLACE_ALL' }.to_json }
       r = Unresponsys::Client.post("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
-      r['recordData']['records'][0][0].include?('MERGEFAILED')
+      r['recordData']['records'][0][0].exclude?('MERGEFAILED')
     end
 
     def delete
       options = { query: { qa: 'ID_', id: @fields.primary_key } }
       r = Unresponsys::Client.delete("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
-      r['recordData']['records'][0][0].include?('DELETEFAILED')
+      r['recordData']['records'][0][0].exclude?('DELETEFAILED')
     end
 
     # allow to access custom fields on new record

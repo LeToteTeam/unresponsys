@@ -47,7 +47,6 @@ class Unresponsys
       @fields.each_pair do |key, val|
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
-        val = val.to_responsys
         self.instance_variable_set(var, val)
 
         # getter
