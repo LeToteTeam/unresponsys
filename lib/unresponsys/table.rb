@@ -17,7 +17,7 @@ class Unresponsys
       end
 
       def find(primary_key)
-        options = { query: { qa: 'ID_', id: primary_key, fs: 'all' } }
+        options = { query: { qa: 'ID_', id: primary_key.to_responsys, fs: 'all' } }
         r = Unresponsys::Client.get("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
 
         fields = {}

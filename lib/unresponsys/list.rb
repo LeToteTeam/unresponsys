@@ -20,7 +20,7 @@ class Unresponsys
       end
 
       def find(email)
-        options = { query: { qa: 'e', id: email, fs: 'all' } }
+        options = { query: { qa: 'e', id: email.to_responsys, fs: 'all' } }
         r = Unresponsys::Client.get("/lists/#{@list.name}/members", options)
 
         fields = {}
