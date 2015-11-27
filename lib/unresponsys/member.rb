@@ -71,7 +71,7 @@ class Unresponsys
     end
 
     def save
-      record_data = { fieldNames: [], records: [[]], mapTemplateName: nil } }
+      record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
       @fields.each_pair do |key, val|
         # can't send unless val changed or API breaks
         next unless @changed.include?(key)
