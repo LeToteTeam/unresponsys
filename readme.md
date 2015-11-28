@@ -2,9 +2,20 @@ What is the purpose of this gem? It is an [opinionated](https://gettingreal.37si
 
 Some helpful, but unpublished information: rate limit is 500 calls per minute.
 
+# Setup
+
+Add an `unresponsys.rb` file under `config/initializers` (if you're using Rails).
+
+```
+Unresponsys::Client.new(
+  username: 'YOUR_USERNAME',
+  password: 'YOUR_PASSWORD'
+)
+```
+
 # Lists
 
-Lists cannot be created or changed through the API, they must be setup with the Responsys dashboard
+Lists cannot be created or changed through the API, they must be setup with the Responsys dashboard.
 
 ### Find a list
 
@@ -105,3 +116,54 @@ event.save
 Returns `true` on success or throws an error
 
 Throws a `Unresponsys::NotFoundError` if you have not defined the event on the account page of the Responsys dashboard
+
+# Tables
+
+### Find table
+
+```
+folder  = Unresponsys::Folder.find('MyFolder')
+table   = folder.tables.find('MyTable')
+```
+
+Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard.
+
+Takes a table name (string)
+
+Returns an instance of `Unresponsys::Table`
+
+# Row
+
+This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
+
+### Find row
+
+```
+table = folder.tables.find('MyTable')
+table.rows.find(123)
+```
+
+Takes an id (integer)
+
+Returns an instance of `Unresponsys::Row` or throws an `Unresponsys::NotFoundError`
+
+### New row
+
+```
+table = folder.tables.find('MyTable')
+table.rows.new(124)
+```
+
+Takes an id (integer)
+
+Returns an instance of `Unresponsys::Row`
+
+### Save row
+
+```
+row = table.rows.find(123)
+row.title = 'My Title'
+row.save
+```
+
+Returns `true` or `false`

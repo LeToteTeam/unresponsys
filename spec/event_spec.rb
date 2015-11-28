@@ -9,7 +9,7 @@ describe Unresponsys::Event do
       password: ENV['R_PASS'],
       debug:    false
     )
-    allow(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
 
     VCR.use_cassette('get_existing_member') do
       list = Unresponsys::List.find('TestDataList')
@@ -17,7 +17,7 @@ describe Unresponsys::Event do
     end
   end
 
-  context '#save' do
+  describe '#save' do
     context 'without extra params' do
       before(:each) do
         @event = @member.events.new('Sign_Up')

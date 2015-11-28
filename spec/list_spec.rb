@@ -2,16 +2,10 @@ require 'spec_helper'
 
 describe Unresponsys::List do
 
-  before(:each) do
-    # setup connection
-    Unresponsys::Client.new(
-      username: ENV['R_USER'],
-      password: ENV['R_PASS'],
-      debug:    false
-    )
-    allow(Unresponsys::Client).to receive(:authenticate).and_return(true)
+  before :each do
+    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: false)
+    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
 
-    # make sure record exists
     list = Unresponsys::List.find('TestDataList')
     member = list.members.new('kwkimball@gmail.com')
     member.save
@@ -23,7 +17,7 @@ describe Unresponsys::List do
   end
 
   context do
-    before(:each) do
+    before :each do
       @list = Unresponsys::List.find('TestDataList')
     end
 
