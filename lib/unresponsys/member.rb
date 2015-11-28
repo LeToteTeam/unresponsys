@@ -47,6 +47,7 @@ class Unresponsys
       @fields.each_pair do |key, val|
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
+        val = val.to_ruby
         self.instance_variable_set(var, val)
 
         # getter
@@ -56,6 +57,7 @@ class Unresponsys
         next if IMMUTABLE_FIELDS.include?(key)
         self.class.send(:define_method, "#{str}=") do |val|
           @changed << key
+          val = val.to_ruby
           self.instance_variable_set(var, val)
         end
       end
@@ -106,6 +108,7 @@ class Unresponsys
         field_name = str.upcase
         @fields[field_name] = ''
         @changed << field_name
+        val = val.to_ruby
         self.instance_variable_set(var, val)
       else
         self.instance_variable_get(var)

@@ -7,12 +7,16 @@ class Unresponsys
       @fields.each_pair do |key, val|
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
+        val = val.to_ruby
         self.instance_variable_set(var, val)
 
         if key == 'ID_'
           self.class.send(:attr_reader, str)
         else
-          self.class.send(:attr_accessor, str)
+          self.class.send(:define_method, "#{str}=") do |val|
+            val = val.to_ruby
+            self.instance_variable_set(var, val)
+          end
         end
       end
     end
@@ -48,6 +52,7 @@ class Unresponsys
       if setter
         field_name = str.upcase
         @fields[field_name] = ''
+        val = val.to_ruby
         self.instance_variable_set(var, val)
       else
         self.instance_variable_get(var)

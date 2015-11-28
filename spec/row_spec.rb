@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Unresponsys::Row do
 
   before :each do
-    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: true)
+    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: false)
     allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
   end
 
