@@ -7,18 +7,18 @@ Gem::Specification.new do |s|
   s.authors               = ['Kevin Kimball']
   s.email                 = ['kevin@letote.com']
   s.summary               = 'an opinionated Ruby wrapper for Responsys REST API'
-  s.require_paths         = [
-                              'lib/unresponsys',
-                              'lib/unresponsys/client',
-                              'lib/unresponsys/errors',
-                              'lib/unresponsys/event',
-                              'lib/unresponsys/folder',
-                              'lib/unresponsys/helpers',
-                              'lib/unresponsys/list',
-                              'lib/unresponsys/member',
-                              'lib/unresponsys/row',
-                              'lib/unresponsys/table',
-                              'lib/unresponsys/version'
+  s.files                 = [
+                              'lib/unresponsys.rb',
+                              'lib/unresponsys/client.rb',
+                              'lib/unresponsys/errors.rb',
+                              'lib/unresponsys/event.rb',
+                              'lib/unresponsys/folder.rb',
+                              'lib/unresponsys/helpers.rb',
+                              'lib/unresponsys/list.rb',
+                              'lib/unresponsys/member.rb',
+                              'lib/unresponsys/row.rb',
+                              'lib/unresponsys/table.rb',
+                              'lib/unresponsys/version.rb'
                             ]
 
   s.post_install_message  = 'responsys sucks :('
