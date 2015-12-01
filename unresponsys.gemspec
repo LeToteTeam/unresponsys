@@ -7,7 +7,20 @@ Gem::Specification.new do |s|
   s.authors               = ['Kevin Kimball']
   s.email                 = ['kevin@letote.com']
   s.summary               = 'an opinionated Ruby wrapper for Responsys REST API'
-  s.require_paths         = ['lib']
+  s.require_paths         = [
+                              'lib/unresponsys',
+                              'lib/unresponsys/client',
+                              'lib/unresponsys/errors',
+                              'lib/unresponsys/event',
+                              'lib/unresponsys/folder',
+                              'lib/unresponsys/helpers',
+                              'lib/unresponsys/list',
+                              'lib/unresponsys/member',
+                              'lib/unresponsys/row',
+                              'lib/unresponsys/table',
+                              'lib/unresponsys/version'
+                            ]
+
   s.post_install_message  = 'responsys sucks :('
 
   s.add_runtime_dependency 'httparty', '>= 0.13.5'

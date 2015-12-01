@@ -19,6 +19,7 @@ class String
   end
 
   def is_time?
+    return false if /[[:alpha:]]/.match(self).present?
     !!Time.parse(self) rescue false
   end
 
