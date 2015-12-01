@@ -40,7 +40,7 @@ class Unresponsys
     }
 
     def initialize(list, fields)
-      @fields     = DEFAULT_FIELDS.merge(fields)
+      @fields     = DEFAULT_FIELDS.dup.merge(fields)
       @list       = list
       @changed    = ['EMAIL_ADDRESS_']
 
