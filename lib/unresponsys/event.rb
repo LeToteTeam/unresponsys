@@ -14,7 +14,7 @@ class Unresponsys
       body = {
         customEvent: {},
         recipientData: [{
-          recipient: { listName: { objectName: @member.list }, recipientId:  @member.riid }
+          recipient: { listName: { objectName: @member.list.name }, recipientId:  @member.riid }
         }]
       }
 

@@ -4,7 +4,7 @@ describe Unresponsys::Row do
 
   before :each do
     @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
-    # allow_any_instance_of(@client).to receive(:authenticate).and_return(true)
+    allow_any_instance_of(@client).to receive(:authenticate).and_return(true)
   end
 
   context 'when an existing row' do

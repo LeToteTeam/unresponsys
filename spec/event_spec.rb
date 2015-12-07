@@ -4,7 +4,7 @@ describe Unresponsys::Event do
 
   before(:each) do
     @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
-    # allow(@client).to receive(:authenticate).and_return(true)
+    allow(@client).to receive(:authenticate).and_return(true)
 
     VCR.use_cassette('get_existing_member') do
       list = @client.lists.find('TestDataList')
