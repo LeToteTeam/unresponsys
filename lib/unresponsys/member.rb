@@ -1,5 +1,8 @@
 class Unresponsys
   class Member
+    extend Forwardable
+    delegate [:client] => :list
+    attr_reader :list
 
     def initialize(list, fields)
       @fields     = default_fields.merge(fields)
@@ -29,10 +32,6 @@ class Unresponsys
       email_address
     end
 
-    def list
-      @list.name
-    end
-
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
       @fields.each_pair do |key, val|
@@ -47,8 +46,9 @@ class Unresponsys
       end
 
       options = { body: { recordData: record_data, mergeRule: merge_rule }.to_json }
-      r = Unresponsys::Client.post("/lists/#{@list.name}/members", options)
+      r = client.post("/lists/#{@list.name}/members", options)
       return false if r['recordData']['records'][0][0].include?('MERGEFAILED')
+
       @changed = ['EMAIL_ADDRESS_']
       self.instance_variable_set(:@riid, r['recordData']['records'][0][0])
       true
@@ -137,6 +137,5 @@ class Unresponsys
         rejectRecordIfChannelEmpty: nil,
       }
     end
-
   end
 end

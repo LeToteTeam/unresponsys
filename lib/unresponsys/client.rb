@@ -2,38 +2,65 @@ require 'httparty'
 
 class Unresponsys
   class Client
-    include HTTParty
-
     def initialize(options = {})
-      raise Unresponsys::ArgumentError, 'Username is required' unless options[:username]
+      raise Unresponsys::ArgumentError unless options[:username] && options[:password]
       @username = options[:username]
-
-      raise Unresponsys::ArgumentError, 'Password is required' unless options[:password]
       @password = options[:password]
-
-      raise Unresponsys::Error, 'Could not authenticate' unless authenticate
-
-      self.class.debug_output($stdout) if options[:debug]
+      authenticate
     end
 
-    def self.get(path, options = {}, &block)
-      r = perform_request Net::HTTP::Get, path, options, &block
-      handle_error(r)
+    def get(path, options = {}, &block)
+      path      = "#{@base_uri}#{path}"
+      options   = @options.merge(options)
+      response  = HTTParty.get(path, options, &block)
+      handle_error(response)
     end
 
-    def self.post(path, options = {}, &block)
-      r = perform_request Net::HTTP::Post, path, options, &block
-      handle_error(r)
+    def post(path, options = {}, &block)
+      path      = "#{@base_uri}#{path}"
+      options   = @options.merge(options)
+      response  = HTTParty.post(path, options, &block)
+      handle_error(response)
     end
 
-    def self.delete(path, options = {}, &block)
-      r = perform_request Net::HTTP::Delete, path, options, &block
-      handle_error(r)
+    def delete(path, options = {}, &block)
+      path      = "#{@base_uri}#{path}"
+      options   = @options.merge(options)
+      response  = HTTParty.delete(path, options, &block)
+      handle_error(response)
+    end
+
+    def folders
+      @folders ||= Folders.new(self)
+    end
+
+    def lists
+      @lists ||= Lists.new(self)
+    end
+
+    class Folders
+      def initialize(client)
+        @client = client
+      end
+
+      def find(folder_name)
+        Folder.new(@client, folder_name)
+      end
+    end
+
+    class Lists
+      def initialize(client)
+        @client = client
+      end
+
+      def find(list_name)
+        List.new(@client, list_name)
+      end
     end
 
     private
 
-    def self.handle_error(response)
+    def handle_error(response)
       if response.is_a?(Hash) && response.keys.include?('errorCode')
         raise Unresponsys::TokenExpired if response['title'].include?('token expired')
         raise Unresponsys::NotFoundError, response['detail'] if response['title'].include?('not found')
@@ -43,13 +70,14 @@ class Unresponsys
     end
 
     def authenticate
-      self.class.headers('Content-Type' => 'application/x-www-form-urlencoded')
-      body = { user_name: @username, password: @password, auth_type: 'password' }
-      r = self.class.post('https://login2.responsys.net/rest/api/v1/auth/token', body: body)
-      return false unless r.success?
-      self.class.headers('Authorization' => r['authToken'], 'Content-Type' => 'application/json')
-      self.class.base_uri("#{r['endPoint']}/rest/api/v1")
-      true
+      headers   = { 'Content-Type' => 'application/x-www-form-urlencoded' }
+      body      = { user_name: @username, password: @password, auth_type: 'password' }
+      response  = HTTParty.post('https://login2.responsys.net/rest/api/v1/auth/token', headers: headers, body: body)
+
+      raise Unresponsys::AuthenticationError unless response.success?
+
+      @options  = { headers: { 'Authorization' => response['authToken'], 'Content-Type' => 'application/json' } }
+      @base_uri = "#{response['endPoint']}/rest/api/v1"
     end
   end
 end

@@ -3,16 +3,11 @@ require 'spec_helper'
 describe Unresponsys::Event do
 
   before(:each) do
-    # setup connection
-    Unresponsys::Client.new(
-      username: ENV['R_USER'],
-      password: ENV['R_PASS'],
-      debug:    false
-    )
-    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
+    # allow(@client).to receive(:authenticate).and_return(true)
 
     VCR.use_cassette('get_existing_member') do
-      list = Unresponsys::List.find('TestDataList')
+      list = @client.lists.find('TestDataList')
       @member = list.members.find('kwkimball@gmail.com')
     end
   end
@@ -25,7 +20,7 @@ describe Unresponsys::Event do
 
       it 'posts to Responsys' do
         VCR.use_cassette('save_new_event') do
-          expect(Unresponsys::Client).to receive(:post).and_call_original
+          expect(@client).to receive(:post).and_call_original
           @event.save
         end
       end
@@ -44,7 +39,7 @@ describe Unresponsys::Event do
 
       it 'posts to Responsys' do
         VCR.use_cassette('save_new_event_with_params') do
-          expect(Unresponsys::Client).to receive(:post).and_call_original
+          expect(@client).to receive(:post).and_call_original
           @event.save
         end
       end

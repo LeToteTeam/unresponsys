@@ -1,5 +1,7 @@
 class Unresponsys
   class Table
+    extend Forwardable
+    delegate [:client] => :folder
     attr_reader :folder, :name
 
     def initialize(folder, table_name)
@@ -18,7 +20,7 @@ class Unresponsys
 
       def find(primary_key)
         options = { query: { qa: 'ID_', id: primary_key.to_responsys, fs: 'all' } }
-        r = Unresponsys::Client.get("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
+        r       = @table.client.get("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
 
         fields = {}
         r['recordData']['fieldNames'].each_with_index do |field, index|

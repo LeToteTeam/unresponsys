@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Unresponsys::Member do
 
   before :each do
-    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: false)
-    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
+    allow(@client).to receive(:authenticate).and_return(true)
   end
 
   context 'when an existing member' do
     before :each do
       VCR.use_cassette('get_existing_member') do
-        @list = Unresponsys::List.find('TestDataList')
+        @list = @client.lists.find('TestDataList')
         @member = @list.members.find('kwkimball@gmail.com')
       end
     end
@@ -28,7 +28,7 @@ describe Unresponsys::Member do
     describe '#save' do
       it 'posts to Responsys' do
         VCR.use_cassette('save_existing_member') do
-          expect(Unresponsys::Client).to receive(:post).and_call_original
+          expect(@client).to receive(:post).and_call_original
           @member.save
         end
       end
@@ -89,7 +89,7 @@ describe Unresponsys::Member do
     describe '#delete' do
       it 'posts to Responsys' do
         VCR.use_cassette('delete_existing_member') do
-          expect(Unresponsys::Client).to receive(:post).and_call_original
+          expect(@client).to receive(:post).and_call_original
           @member.delete
         end
       end
@@ -115,7 +115,7 @@ describe Unresponsys::Member do
 
   context 'when a new member' do
     before :each do
-      list = Unresponsys::List.find('TestDataList')
+      list = @client.lists.find('TestDataList')
       @member = list.members.new('kwkimball+bar@gmail.com')
     end
 
@@ -132,7 +132,7 @@ describe Unresponsys::Member do
     describe '#save' do
       it 'posts to Responsys' do
         VCR.use_cassette('save_new_member') do
-          expect(Unresponsys::Client).to receive(:post).and_call_original
+          expect(@client).to receive(:post).and_call_original
           @member.save
         end
       end

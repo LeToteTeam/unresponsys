@@ -7,7 +7,7 @@ Some helpful, but unpublished information: rate limit is 500 calls per minute.
 Add an `unresponsys.rb` file under `config/initializers` (if you're using Rails).
 
 ```
-Unresponsys::Client.new(
+$unresponsys = Unresponsys::Client.new(
   username: 'YOUR_USERNAME',
   password: 'YOUR_PASSWORD'
 )
@@ -20,7 +20,7 @@ Lists cannot be created or changed through the API, they must be setup with the 
 ### Find a list
 
 ```
-Unresponsys::List.find('mylist')
+$unresponsys.lists.find('mylist')
 ```
 
 Accepts a list name (string)
@@ -30,7 +30,7 @@ Returns an `Unresponsys::List` instance
 ### Find list member
 
 ```
-list = Unresponsys::List.find('mylist')
+list = $unresponsys.lists.find('mylist')
 list.members.find('hello@example.com')
 ```
 
@@ -43,7 +43,7 @@ Throws an `Unresponsys::NotFoundError` if no member exists
 ### New list member
 
 ```
-list = Unresponsys::List.find('mylist')
+list = $unresponsys.lists.find('mylist')
 list.members.new('hello@example.com')
 ```
 
@@ -62,11 +62,6 @@ There are several reserved, immutable fields which become `attr_reader`
 - `mobile_number` - mobile number
 
 You can also create up to 80 custom fields (in the Responsys dashboard) which become `attr_accessor`
-
-There are a couple of other methods on the member
-
-- `deleted?` whether the member is receiving emails or not (cannot actually remove from table)
-- `list` returns the name of the list the member belongs to
 
 ### Save a member
 
@@ -122,7 +117,7 @@ Throws a `Unresponsys::NotFoundError` if you have not defined the event on the a
 ### Find table
 
 ```
-folder  = Unresponsys::Folder.find('MyFolder')
+folder  = $unresponsys.folders.find('MyFolder')
 table   = folder.tables.find('MyTable')
 ```
 

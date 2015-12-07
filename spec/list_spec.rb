@@ -3,22 +3,22 @@ require 'spec_helper'
 describe Unresponsys::List do
 
   before :each do
-    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: false)
-    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
+    allow(@client).to receive(:authenticate).and_return(true)
 
-    list = Unresponsys::List.find('TestDataList')
-    member = list.members.new('kwkimball@gmail.com')
+    list    = @client.lists.find('TestDataList')
+    member  = list.members.new('kwkimball@gmail.com')
     member.save
   end
 
   it '.find returns an instance of List' do
-    list = Unresponsys::List.find('TestDataList')
+    list = @client.lists.find('TestDataList')
     expect(list).to be_an_instance_of(Unresponsys::List)
   end
 
   context do
     before :each do
-      @list = Unresponsys::List.find('TestDataList')
+      @list = @client.lists.find('TestDataList')
     end
 
     it '#members.find returns an instance of Member when a member exists' do

@@ -1,13 +1,10 @@
 class Unresponsys
   class Folder
-    attr_reader :name
+    attr_reader :client, :name
 
-    def self.find(name)
-      self.new(name)
-    end
-
-    def initialize(name)
-      @name = name
+    def initialize(client, name)
+      @client = client
+      @name   = name
     end
 
     def tables

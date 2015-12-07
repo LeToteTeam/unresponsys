@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Unresponsys::Table do
 
   before :each do
-    Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'], debug: false)
-    allow_any_instance_of(Unresponsys::Client).to receive(:authenticate).and_return(true)
+    @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
+    allow(@client).to receive(:authenticate).and_return(true)
 
-    folder  = Unresponsys::Folder.find('TestData')
+    folder  = @client.folders.find('TestData')
     @table  = folder.tables.find('TestTable')
   end
 

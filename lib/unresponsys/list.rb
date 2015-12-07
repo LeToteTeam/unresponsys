@@ -1,13 +1,10 @@
 class Unresponsys
   class List
-    attr_reader :name
+    attr_reader :client, :name
 
-    def self.find(name)
-      self.new(name)
-    end
-
-    def initialize(name)
-      @name = name
+    def initialize(client, name)
+      @client = client
+      @name   = name
     end
 
     def members
@@ -21,7 +18,7 @@ class Unresponsys
 
       def find(email)
         options = { query: { qa: 'e', id: email.to_responsys, fs: 'all' } }
-        r = Unresponsys::Client.get("/lists/#{@list.name}/members", options)
+        r       = @list.client.get("/lists/#{@list.name}/members", options)
 
         fields = {}
         r['recordData']['fieldNames'].each_with_index do |field, index|
