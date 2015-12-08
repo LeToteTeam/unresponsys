@@ -6,12 +6,16 @@ class Unresponsys
       raise Unresponsys::ArgumentError unless options[:username] && options[:password]
       @username = options[:username]
       @password = options[:password]
+      @debug    = options[:debug]
+      @logger   = Logger.new(STDOUT) if @debug
+      @log_opts = { logger: @logger, log_level: :debug, log_format: :curl }
       authenticate
     end
 
     def get(path, options = {}, &block)
       path      = "#{@base_uri}#{path}"
       options   = @options.merge(options)
+      options   = options.merge(@log_opts) if @debug
       response  = HTTParty.get(path, options, &block)
       handle_error(response)
     end
@@ -19,6 +23,7 @@ class Unresponsys
     def post(path, options = {}, &block)
       path      = "#{@base_uri}#{path}"
       options   = @options.merge(options)
+      options   = options.merge(@log_opts) if @debug
       response  = HTTParty.post(path, options, &block)
       handle_error(response)
     end
@@ -26,6 +31,7 @@ class Unresponsys
     def delete(path, options = {}, &block)
       path      = "#{@base_uri}#{path}"
       options   = @options.merge(options)
+      options   = options.merge(@log_opts) if @debug
       response  = HTTParty.delete(path, options, &block)
       handle_error(response)
     end
