@@ -114,6 +114,7 @@ class Unresponsys
         RIID_
         EMAIL_MD5_HASH_
         EMAIL_SHA256_HASH_
+        EMAIL_PERMISSION_REASON_
       )
     end
 
