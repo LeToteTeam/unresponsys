@@ -5,11 +5,13 @@ class Unresponsys
     attr_reader :list
 
     def initialize(list, fields)
-      @fields     = default_fields.merge(fields)
-      @list       = list
-      @changed    = ['EMAIL_ADDRESS_']
+      fields    = default_fields.merge(fields)
+      @list     = list
+      @changed  = []
 
-      @fields.each_pair do |key, val|
+      fields.each_pair do |key, val|
+        @changed << key
+
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
         val = val.to_ruby
@@ -34,10 +36,7 @@ class Unresponsys
 
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
-      @fields.each_pair do |key, val|
-        # can't send unless val changed or API breaks
-        next unless @changed.include?(key)
-
+      @changed.each do |key|
         record_data[:fieldNames] << key
         var = "@#{key.downcase.chomp('_')}".to_sym
         val = self.instance_variable_get(var)
@@ -68,7 +67,6 @@ class Unresponsys
 
       if setter
         field_name = str.upcase
-        @fields[field_name] = ''
         @changed << field_name
         val = val.to_ruby
         self.instance_variable_set(var, val)
