@@ -10,8 +10,6 @@ class Unresponsys
       @changed  = []
 
       fields.each_pair do |key, val|
-        @changed << key
-
         str = key.downcase.chomp('_')
         var = "@#{str}".to_sym
         val = val.to_ruby
@@ -22,6 +20,7 @@ class Unresponsys
 
         # setter
         next if immutable_fields.include?(key)
+        @changed << key
         self.class.send(:define_method, "#{str}=") do |val|
           @changed << key
           val = val.to_ruby
@@ -113,8 +112,6 @@ class Unresponsys
     def immutable_fields
       %w(
         RIID_
-        EMAIL_ADDRESS_
-        MOBILE_NUMBER_
         EMAIL_MD5_HASH_
         EMAIL_SHA256_HASH_
       )
