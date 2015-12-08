@@ -36,7 +36,7 @@ class Unresponsys
 
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
-      @changed.each do |key|
+      @changed.uniq.each do |key|
         record_data[:fieldNames] << key
         var = "@#{key.downcase.chomp('_')}".to_sym
         val = self.instance_variable_get(var)
