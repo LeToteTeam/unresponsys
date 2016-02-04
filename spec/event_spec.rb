@@ -13,41 +13,20 @@ describe Unresponsys::Event do
   end
 
   describe '#save' do
-    context 'without extra params' do
-      before(:each) do
-        @event = @member.events.new('Sign_Up')
-      end
+    before(:each) do
+      @event = @member.events.new('Sign_Up')
+    end
 
-      it 'posts to Responsys' do
-        VCR.use_cassette('save_new_event') do
-          expect(@client).to receive(:post).and_call_original
-          @event.save
-        end
-      end
-
-      it 'returns true' do
-        VCR.use_cassette('save_new_event') do
-          expect(@event.save).to eq(true)
-        end
+    it 'posts to Responsys' do
+      VCR.use_cassette('save_new_event') do
+        expect(@client).to receive(:post).and_call_original
+        @event.save
       end
     end
 
-    context 'with extra params' do
-      before(:each) do
-        @event = @member.events.new('Sign_Up', { extra: 12345 })
-      end
-
-      it 'posts to Responsys' do
-        VCR.use_cassette('save_new_event_with_params') do
-          expect(@client).to receive(:post).and_call_original
-          @event.save
-        end
-      end
-
-      it 'returns true' do
-        VCR.use_cassette('save_new_event_with_params') do
-          expect(@event.save).to eq(true)
-        end
+    it 'returns true' do
+      VCR.use_cassette('save_new_event') do
+        expect(@event.save).to eq(true)
       end
     end
 
