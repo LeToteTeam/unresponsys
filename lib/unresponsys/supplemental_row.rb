@@ -1,5 +1,9 @@
 class Unresponsys
-  class Row
+  class SupplementalRow
+    extend Forwardable
+    delegate [:client] => :table
+    attr_reader :table
+
     def initialize(table, fields)
       @table  = table
       @fields = fields
@@ -32,7 +36,7 @@ class Unresponsys
       end
 
       options = { body: { recordData: record_data, insertOnNoMatch: true, updateOnMatch: 'REPLACE_ALL' }.to_json }
-      r = Unresponsys::Client.post("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
+      r = client.post("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
       r['recordData']['records'][0][0].exclude?('MERGEFAILED')
     end
 

@@ -1,5 +1,5 @@
 class Unresponsys
-  class Table
+  class SupplementalTable
     extend Forwardable
     delegate [:client] => :folder
     attr_reader :folder, :name
@@ -27,11 +27,11 @@ class Unresponsys
           fields[field] = r['recordData']['records'][0][index]
         end
 
-        Unresponsys::Row.new(@table, fields)
+        Unresponsys::SupplementalRow.new(@table, fields)
       end
 
       def new(primary_key)
-        Unresponsys::Row.new(@table, { 'ID_' => primary_key })
+        Unresponsys::SupplementalRow.new(@table, { 'ID_' => primary_key })
       end
     end
   end

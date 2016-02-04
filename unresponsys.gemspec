@@ -11,13 +11,15 @@ Gem::Specification.new do |s|
                               'lib/unresponsys.rb',
                               'lib/unresponsys/client.rb',
                               'lib/unresponsys/errors.rb',
+                              'lib/unresponsys/extension_row.rb',
+                              'lib/unresponsys/extension_table.rb',
                               'lib/unresponsys/event.rb',
                               'lib/unresponsys/folder.rb',
                               'lib/unresponsys/helpers.rb',
                               'lib/unresponsys/list.rb',
                               'lib/unresponsys/member.rb',
-                              'lib/unresponsys/row.rb',
-                              'lib/unresponsys/table.rb',
+                              'lib/unresponsys/supplemental_row.rb',
+                              'lib/unresponsys/supplemental_table.rb',
                               'lib/unresponsys/version.rb'
                             ]
 

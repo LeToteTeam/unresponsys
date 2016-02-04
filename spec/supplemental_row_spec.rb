@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Unresponsys::Row do
+describe Unresponsys::SupplementalRow do
 
   before :each do
     @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
-    allow_any_instance_of(@client).to receive(:authenticate).and_return(true)
+    allow(@client).to receive(:authenticate).and_return(true)
   end
 
   context 'when an existing row' do
@@ -14,7 +14,7 @@ describe Unresponsys::Row do
   context 'when a new row' do
     before :each do
       folder  = @client.folders.find('TestData')
-      table   = folder.tables.find('TestTable')
+      table   = folder.supplemental_tables.find('TestTable')
       @row    = table.rows.new(1)
 
       # at least one field must be set

@@ -32,5 +32,19 @@ class Unresponsys
         Unresponsys::Member.new(@list, { 'EMAIL_ADDRESS_' => email })
       end
     end
+
+    def extension_tables
+      @extension_tables ||= ExtensionTables.new(self)
+    end
+
+    class ExtensionTables
+      def initialize(list)
+        @list = list
+      end
+
+      def find(name)
+        Unresponsys::ExtensionTable.new(@list, name)
+      end
+    end
   end
 end
