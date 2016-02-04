@@ -94,10 +94,10 @@ You can also use `deleted?` to see if a member is receiving emails or not
 
 ```
 member = list.members.find('hello@example.com')
-event = member.events.new('ReferredFriend', friend_id: 1234)
+event = member.events.new('ReferredFriend')
 ```
 
-Accepts an event name (string) and optional properties hash
+Accepts an event name (string)
 
 Custom events must be defined on the account page of the Responsys dashboard before you can start sending them
 
