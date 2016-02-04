@@ -29,10 +29,6 @@ class Unresponsys
       end
     end
 
-    def email
-      email_address
-    end
-
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
       @changed.uniq.each do |key|
@@ -50,11 +46,6 @@ class Unresponsys
       @changed = ['EMAIL_ADDRESS_']
       self.instance_variable_set(:@riid, r['recordData']['records'][0][0])
       true
-    end
-
-    def delete
-      self.email_permission_status = 'O'
-      self.save
     end
 
     # allow to access custom fields on new record
@@ -115,6 +106,16 @@ class Unresponsys
         EMAIL_MD5_HASH_
         EMAIL_SHA256_HASH_
         EMAIL_PERMISSION_REASON_
+        CREATED_SOURCE_IP_
+        EMAIL_DOMAIN_
+        EMAIL_ISP_
+        EMAIL_DELIVERABILITY_STATUS_
+        MOBILE_DELIVERABILITY_STATUS_
+        MOBILE_PERMISSION_REASON_
+        POSTAL_DELIVERABILITY_STATUS_
+        POSTAL_PERMISSION_REASON_
+        CREATED_DATE_
+        MODIFIED_DATE_
       )
     end
 

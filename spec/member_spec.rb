@@ -86,28 +86,6 @@ describe Unresponsys::Member do
       end
     end
 
-    describe '#delete' do
-      it 'posts to Responsys' do
-        VCR.use_cassette('delete_existing_member') do
-          expect(@client).to receive(:post).and_call_original
-          @member.delete
-        end
-      end
-
-      it 'returns true' do
-        VCR.use_cassette('delete_existing_member') do
-          expect(@member.delete).to eq(true)
-        end
-      end
-
-      it 'sets opt-out status' do
-        VCR.use_cassette('delete_existing_member') do
-          @member.delete
-          expect(@member.email_permission_status).to eq('O')
-        end
-      end
-    end
-
     it '#events.new returns an instance of Event' do
       expect(@member.events.new('MyEvent')).to be_an_instance_of(Unresponsys::Event)
     end

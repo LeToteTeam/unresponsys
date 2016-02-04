@@ -75,19 +75,6 @@ Create or update a list member
 
 Returns `true` or `false`
 
-### Delete a member
-
-```
-member = list.members.find('hello@example.com')
-member.delete
-```
-
-Remove a member from the list (they remain on the table but stop getting emails). This is a shorthand for setting the opt-out property
-
-Returns `true` or `false`
-
-You can also use `deleted?` to see if a member is receiving emails or not
-
 # Events
 
 ### New event
