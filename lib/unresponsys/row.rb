@@ -45,7 +45,7 @@ class Unresponsys
       }
 
       if @table.class == Unresponsys::SupplementalTable
-        url = "/folders/#{@table.folder.name}/suppData/#{@table.name}/members"
+        url = "/folders/#{@table.folder.name}/suppData/#{@table.name}"
       else
         options[:body][:matchColumn] = 'RIID'
         url = "/lists/#{@table.list.name}/listExtensions/#{@table.name}"
@@ -53,7 +53,12 @@ class Unresponsys
 
       options[:body] = options[:body].to_json
       r = client.post(url, options)
-      r[0]['errorMessage'].blank?
+
+      if @table.class == Unresponsys::SupplementalTable
+        r['errorMessage'].blank?
+      else
+        r[0]['errorMessage'].blank?
+      end
     end
 
     # allow to access custom fields on new record
