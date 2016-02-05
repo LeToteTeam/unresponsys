@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Unresponsys::SupplementalRow do
+describe Unresponsys::Row do
 
   before :each do
     @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
@@ -14,8 +14,8 @@ describe Unresponsys::SupplementalRow do
   context 'when a new row' do
     before :each do
       folder  = @client.folders.find('TestData')
-      table   = folder.supplemental_tables.find('TestTable')
-      @row    = table.rows.new(1)
+      @table  = folder.supplemental_tables.find('TestTable')
+      @row    = @table.rows.new(1)
 
       # at least one field must be set
       @row.title = 'My Title'

@@ -13,7 +13,7 @@ describe Unresponsys::SupplementalTable do
   it '#rows.find returns an instance of Row when a row exists' do
     VCR.use_cassette('find_row_exists') do
       row = @table.rows.find(1)
-      expect(row).to be_an_instance_of(Unresponsys::SupplementalRow)
+      expect(row).to be_an_instance_of(Unresponsys::Row)
     end
   end
 
@@ -27,7 +27,7 @@ describe Unresponsys::SupplementalTable do
 
   it '#rows.new returns an instance of Row' do
     row = @table.rows.new(2)
-    expect(row).to be_an_instance_of(Unresponsys::SupplementalRow)
+    expect(row).to be_an_instance_of(Unresponsys::Row)
   end
 
 end

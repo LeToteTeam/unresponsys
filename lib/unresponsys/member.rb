@@ -79,6 +79,20 @@ class Unresponsys
       end
     end
 
+    def extension_tables
+      @extension_tables ||= ExtensionTables.new(self)
+    end
+
+    class ExtensionTables
+      def initialize(member)
+        @member = member
+      end
+
+      def find(name)
+        Unresponsys::ExtensionTable.new(@member, name)
+      end
+    end
+
     private
 
     def default_fields

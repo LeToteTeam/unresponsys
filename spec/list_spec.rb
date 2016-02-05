@@ -40,11 +40,6 @@ describe Unresponsys::List do
       member = @list.members.new('kwkimball@gmail.com')
       expect(member).to be_an_instance_of(Unresponsys::Member)
     end
-
-    it '#extension_tables.find returns an instance of ExtensionTable' do
-      table = @list.extension_tables.find('MyTable')
-      expect(table).to be_an_instance_of(Unresponsys::ExtensionTable)
-    end
   end
 
 end

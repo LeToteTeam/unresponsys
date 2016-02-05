@@ -27,11 +27,11 @@ class Unresponsys
           fields[field] = r['recordData']['records'][0][index]
         end
 
-        Unresponsys::SupplementalRow.new(@table, fields)
+        Unresponsys::Row.new(@table, fields)
       end
 
       def new(primary_key)
-        Unresponsys::SupplementalRow.new(@table, { 'ID_' => primary_key })
+        Unresponsys::Row.new(@table, { 'ID_' => primary_key })
       end
     end
   end

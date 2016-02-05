@@ -1,5 +1,5 @@
 class Unresponsys
-  class SupplementalRow
+  class Row
     extend Forwardable
     delegate [:client] => :table
     attr_reader :table
@@ -14,7 +14,7 @@ class Unresponsys
         val = val.to_ruby
         self.instance_variable_set(var, val)
 
-        if key == 'ID_'
+        if key == 'ID_' || 'RIID_'
           self.class.send(:attr_reader, str)
         else
           self.class.send(:define_method, "#{str}=") do |val|
@@ -26,24 +26,34 @@ class Unresponsys
     end
 
     def save
-      record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
+      record_data = { fieldNames: [], records: [{ fieldValues: [] }], mapTemplateName: nil }
+
       @fields.each_pair do |key, val|
         record_data[:fieldNames] << key
         var = "@#{key.downcase.chomp('_')}".to_sym
         val = self.instance_variable_get(var)
         val = val.to_responsys
-        record_data[:records][0] << val
+        record_data[:records][0][:fieldValues] << val
       end
 
-      options = { body: { recordData: record_data, insertOnNoMatch: true, updateOnMatch: 'REPLACE_ALL' }.to_json }
-      r = client.post("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
-      r['recordData']['records'][0][0].exclude?('MERGEFAILED')
-    end
+      options = {
+        body: {
+          recordData: record_data,
+          insertOnNoMatch: true,
+          updateOnMatch: 'REPLACE_ALL',
+        }
+      }
 
-    def delete
-      options = { query: { qa: 'ID_', id: @fields.primary_key } }
-      r = Unresponsys::Client.delete("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
-      r['recordData']['records'][0][0].exclude?('DELETEFAILED')
+      if @table.class == Unresponsys::SupplementalTable
+        url = "/folders/#{@table.folder.name}/suppData/#{@table.name}/members"
+      else
+        options[:body][:matchColumn] = 'RIID'
+        url = "/lists/#{@table.list.name}/listExtensions/#{@table.name}"
+      end
+
+      options[:body] = options[:body].to_json
+      r = client.post(url, options)
+      r[0]['errorMessage'].blank?
     end
 
     # allow to access custom fields on new record

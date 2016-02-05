@@ -89,6 +89,11 @@ describe Unresponsys::Member do
     it '#events.new returns an instance of Event' do
       expect(@member.events.new('MyEvent')).to be_an_instance_of(Unresponsys::Event)
     end
+
+    it '#extension_tables.find returns an instance of ExtensionTable' do
+      table = @member.extension_tables.find('MyTable')
+      expect(table).to be_an_instance_of(Unresponsys::ExtensionTable)
+    end
   end
 
   context 'when a new member' do
