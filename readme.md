@@ -99,20 +99,45 @@ Returns `true` on success or throws an error
 
 Throws a `Unresponsys::NotFoundError` if you have not defined the event on the account page of the Responsys dashboard
 
-# Tables
+# Extension Tables
 
-### Find table
+### Find extension table
+
+```
+member = list.members.find('hello@example.com')
+table = member.extension_tables.find('MyExtensionTable')
+```
+
+Extension tables belong to a particular list and are accessed through a list member. Each list member has one corresponding entry in the extension table. Tables need to be created and edited through the dashboard.
+
+Takes a table name (string)
+
+Returns an instance of `Unresponsys::ExtensionTable`
+
+### Update extension table
+
+```
+member = list.members.find('hello@example.com')
+table = member.extension_tables.find('MyExtensionTable')
+table.update(favorite_color: 'blue')
+```
+
+Returns `true` or `false`
+
+# Supplemental Tables
+
+### Find supplemental table
 
 ```
 folder  = $unresponsys.folders.find('MyFolder')
-table   = folder.tables.find('MyTable')
+table   = folder.supplemental_tables.find('MyTable')
 ```
 
 Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard.
 
 Takes a table name (string)
 
-Returns an instance of `Unresponsys::Table`
+Returns an instance of `Unresponsys::SupplementalTable`
 
 # Row
 
@@ -121,7 +146,7 @@ This gem assumes that your table has one primary key, called `ID_`, which is an 
 ### Find row
 
 ```
-table = folder.tables.find('MyTable')
+table = folder.supplemental_tables.find('MyTable')
 table.rows.find(123)
 ```
 
@@ -132,7 +157,7 @@ Returns an instance of `Unresponsys::Row` or throws an `Unresponsys::NotFoundErr
 ### New row
 
 ```
-table = folder.tables.find('MyTable')
+table = folder.supplemental_tables.find('MyTable')
 table.rows.new(124)
 ```
 
