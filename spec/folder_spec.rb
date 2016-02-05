@@ -17,9 +17,9 @@ describe Unresponsys::Folder do
       @folder = @client.folders.find('TestData')
     end
 
-    it '#tables.find returns an instance of Table' do
-      table = @folder.tables.find('MyTable')
-      expect(table).to be_an_instance_of(Unresponsys::Table)
+    it '#supplemental_tables.find returns an instance of SupplementalTable' do
+      table = @folder.supplemental_tables.find('MyTable')
+      expect(table).to be_an_instance_of(Unresponsys::SupplementalTable)
     end
   end
 

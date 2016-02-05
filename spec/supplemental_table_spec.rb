@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Unresponsys::Table do
+describe Unresponsys::SupplementalTable do
 
   before :each do
     @client = Unresponsys::Client.new(username: ENV['R_USER'], password: ENV['R_PASS'])
     allow(@client).to receive(:authenticate).and_return(true)
 
     folder  = @client.folders.find('TestData')
-    @table  = folder.tables.find('TestTable')
+    @table  = folder.supplemental_tables.find('TestTable')
   end
 
   it '#rows.find returns an instance of Row when a row exists' do

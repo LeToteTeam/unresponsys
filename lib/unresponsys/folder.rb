@@ -7,17 +7,17 @@ class Unresponsys
       @name   = name
     end
 
-    def tables
-      @tables ||= Tables.new(self)
+    def supplemental_tables
+      @supplemental_tables ||= SupplementalTables.new(self)
     end
 
-    class Tables
+    class SupplementalTables
       def initialize(folder)
         @folder = folder
       end
 
       def find(table_name)
-        Unresponsys::Table.new(@folder, table_name)
+        Unresponsys::SupplementalTable.new(@folder, table_name)
       end
     end
   end

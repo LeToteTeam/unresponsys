@@ -1,5 +1,5 @@
 class Unresponsys
-  class Table
+  class SupplementalTable
     extend Forwardable
     delegate [:client] => :folder
     attr_reader :folder, :name
