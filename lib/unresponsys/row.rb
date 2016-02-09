@@ -14,7 +14,7 @@ class Unresponsys
         val = val.to_ruby
         self.instance_variable_set(var, val)
 
-        if key == 'ID_' || 'RIID_'
+        if key == 'ID_' || key == 'RIID_'
           self.class.send(:attr_reader, str)
         else
           self.class.send(:define_method, "#{str}=") do |val|
