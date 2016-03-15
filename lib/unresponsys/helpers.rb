@@ -11,11 +11,13 @@ end
 class String
   def is_i?
     return false if self.include?('.')
+    return false if self.match(/e|E/)
     !!Integer(self) rescue false
   end
 
   def is_f?
-    !!Float(self) rescue false
+    return false if self.match(/e|E/)
+    self.include?('.') && !!Float(self) rescue false
   end
 
   def is_time?
