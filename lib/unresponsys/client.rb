@@ -68,9 +68,14 @@ class Unresponsys
 
     def handle_error(response)
       if response.is_a?(Hash) && response.keys.include?('errorCode')
-        raise Unresponsys::TokenExpired if response['title'].include?('token expired')
-        raise Unresponsys::NotFoundError, response['detail'] if response['title'].include?('not found')
-        raise Unresponsys::Error, "#{response['title']} - #{response['detail']}"
+        case response['title']
+        when include?('token expired')
+          raise Unresponsys::TokenExpired, response['detail']
+        when include?('not found')
+          raise Unresponsys::NotFoundError, response['detail']
+        else
+          raise Unresponsys::Error, "#{response['errorCode']}: #{response['title']}: #{response['detail']}"
+        end
       end
       response
     end
