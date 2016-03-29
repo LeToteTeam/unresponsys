@@ -34,7 +34,7 @@ describe Unresponsys::Event do
       it 'returns an error' do
         VCR.use_cassette('save_new_event_undefined') do
           @event = @member.events.new('MyEvent')
-          expect { @event.save }.to raise_error(Unresponsys::NotFoundError)
+          expect { @event.save }.to raise_error(Unresponsys::NotFound)
         end
       end
     end

@@ -32,7 +32,7 @@ describe Unresponsys::List do
       VCR.use_cassette('find_member_doesnt_exist') do
         expect {
           @list.members.find('kwkimball+foo@gmail.com')
-        }.to raise_error(Unresponsys::NotFoundError)
+        }.to raise_error(Unresponsys::NotFound)
       end
     end
 

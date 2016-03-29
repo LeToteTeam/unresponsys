@@ -21,7 +21,7 @@ describe Unresponsys::SupplementalTable do
     VCR.use_cassette('find_row_doesnt_exist') do
       expect {
         @table.rows.find(2)
-      }.to raise_error(Unresponsys::NotFoundError)
+      }.to raise_error(Unresponsys::NotFound)
     end
   end
 

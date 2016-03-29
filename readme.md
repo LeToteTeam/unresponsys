@@ -1,13 +1,11 @@
 What is the purpose of this gem? It is an [opinionated](https://gettingreal.37signals.com/ch04_Make_Opinionated_Software.php) wrapper for Responsys email marketing software. It uses the new [REST API](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCEB.pdf), while existing gems are wrapping the old SOAP API.
 
-Some helpful, but unpublished information: rate limit is 500 calls per minute.
-
 # Setup
 
-Add an `unresponsys.rb` file under `config/initializers` (if you're using Rails).
+Initialize your client:
 
 ```
-$unresponsys = Unresponsys::Client.new(
+client = Unresponsys::Client.new(
   username: 'YOUR_USERNAME',
   password: 'YOUR_PASSWORD'
 )
@@ -15,41 +13,33 @@ $unresponsys = Unresponsys::Client.new(
 
 # Lists
 
-Lists cannot be created or changed through the API, they must be setup with the Responsys dashboard.
-
 ### Find a list
 
 ```
-$unresponsys.lists.find('mylist')
+client.lists.find('mylist')
 ```
 
-Accepts a list name (string)
-
-Returns an `Unresponsys::List` instance
+Accepts a list name (string). Returns an `Unresponsys::List` instance
 
 ### Find list member
 
 ```
-list = $unresponsys.lists.find('mylist')
+list = client.lists.find('mylist')
 list.members.find('hello@example.com')
 ```
 
-Accepts an email address
+Accepts an email address. Returns an `Unresponsys::Member` instance
 
-Returns an `Unresponsys::Member` instance
-
-Throws an `Unresponsys::NotFoundError` if no member exists
+Throws an `Unresponsys::NotFound` if no member exists
 
 ### New list member
 
 ```
-list = $unresponsys.lists.find('mylist')
+list = client.lists.find('mylist')
 list.members.new('hello@example.com')
 ```
 
-Accepts an email address
-
-Returns an `Unresponsys::Member` instance
+Accepts an email address (string). Returns an `Unresponsys::Member` instance
 
 # Members
 
@@ -71,9 +61,7 @@ member.some_field = 'blablabla'
 member.save
 ```
 
-Create or update a list member
-
-Returns `true` or `false`
+Create or update a list member. Returns `true` or `false`
 
 # Events
 
@@ -97,7 +85,7 @@ event.save
 
 Returns `true` on success or throws an error
 
-Throws a `Unresponsys::NotFoundError` if you have not defined the event on the account page of the Responsys dashboard
+Throws a `Unresponsys::NotFound` if you have not defined the event on the account page of the Responsys dashboard
 
 # Extension Tables
 
@@ -110,9 +98,7 @@ table = member.extension_tables.find('MyExtensionTable')
 
 Extension tables belong to a particular list and are accessed through a list member. Each list member has one corresponding entry in the extension table. Tables need to be created and edited through the dashboard.
 
-Takes a table name (string)
-
-Returns an instance of `Unresponsys::ExtensionTable`
+Takes a table name (string). Returns an instance of `Unresponsys::ExtensionTable`
 
 ### Update extension table
 
@@ -129,15 +115,13 @@ Returns `true` or `false`
 ### Find supplemental table
 
 ```
-folder  = $unresponsys.folders.find('MyFolder')
+folder  = client.folders.find('MyFolder')
 table   = folder.supplemental_tables.find('MyTable')
 ```
 
 Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard.
 
-Takes a table name (string)
-
-Returns an instance of `Unresponsys::SupplementalTable`
+Takes a table name (string). Returns an instance of `Unresponsys::SupplementalTable`
 
 # Row
 
@@ -150,9 +134,7 @@ table = folder.supplemental_tables.find('MyTable')
 table.rows.find(123)
 ```
 
-Takes an id (integer)
-
-Returns an instance of `Unresponsys::Row` or throws an `Unresponsys::NotFoundError`
+Takes an id (integer). Returns an instance of `Unresponsys::Row` or throws an `Unresponsys::NotFound`
 
 ### New row
 
@@ -161,9 +143,7 @@ table = folder.supplemental_tables.find('MyTable')
 table.rows.new(124)
 ```
 
-Takes an id (integer)
-
-Returns an instance of `Unresponsys::Row`
+Takes an id (integer). Returns an instance of `Unresponsys::Row`
 
 ### Save row
 
