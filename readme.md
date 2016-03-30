@@ -13,6 +13,15 @@ client = Unresponsys::Client.new(
 
 # Lists
 
+Lists are used to store audience database records—members of your audience might be leads, prospects, customers, contacts, consumers, or visitors, depending on your terminology. The standard set of fields in a list includes:
+- Recipient ID (RIID), an internalOracle Responsys-assigned identifier that allows the behavior of individual recipients to be tracked over time.
+- Email address, mobile number, postal address, which are standard contact channel fields
+- Permission/Opt-in status fields for the various marketing channels (email, mobile, postal)
+- Email format preference (HTML or text)
+- Derived fields for ISP and domain
+- Last modified and created timestamps
+In addition, lists can have a number of custom, user-defined fields that you use to maintain a rich audience profile for targeting and personalization purposes.
+
 ### Find a list
 
 ```
@@ -89,6 +98,8 @@ Throws a `Unresponsys::NotFound` if you have not defined the event on the accoun
 
 # Extension Tables
 
+One or more Profile Extension Tables can be associated with a Profile List. There must be a one-to-one relationship between a record in a Profile Extension Table and its parent Profile List. Profile Extension Tables provide an attractive and efficient way to organize and process audience data. Similar to data in Profile Lists, audience data in Profile Extension Tables can be used for segmentation and targeting in Filters as well as Programs
+
 ### Find extension table
 
 ```
@@ -111,6 +122,8 @@ table.update(favorite_color: 'blue')
 Returns `true` or `false`
 
 # Supplemental Tables
+
+As its name indicates, a supplemental table is a collection of database records that supplements a list with additional related information. The connections between a table and a list is made via a data extraction key, or key field, that is present in both the table and the list. Because you define the schema for any tables you create, you can use them for a wide variety of purposes, ranging from message personalization and dynamic content to storing form responses and campaign events. 
 
 ### Find supplemental table
 
