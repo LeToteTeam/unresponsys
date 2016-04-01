@@ -123,7 +123,7 @@ Returns `true` or `false`
 
 # Supplemental Tables
 
-As its name indicates, a supplemental table is a collection of database records that supplements a list with additional related information. The connections between a table and a list is made via a data extraction key, or key field, that is present in both the table and the list. Because you define the schema for any tables you create, you can use them for a wide variety of purposes, ranging from message personalization and dynamic content to storing form responses and campaign events. 
+As its name indicates, a supplemental table is a collection of database records that supplements a list with additional related information. The connections between a table and a list is made via a data extraction key, or key field, that is present in both the table and the list. Because you define the schema for any tables you create, you can use them for a wide variety of purposes, ranging from message personalization and dynamic content to storing form responses and campaign events.
 
 ### Find supplemental table
 
@@ -164,6 +164,15 @@ Takes an id (integer). Returns an instance of `Unresponsys::Row`
 row = table.rows.find(123)
 row.title = 'My Title'
 row.save
+```
+
+Returns `true` or `false`
+
+### Destroy row
+
+```
+row = table.rows.find(123)
+row.destroy
 ```
 
 Returns `true` or `false`
