@@ -42,7 +42,7 @@ describe Unresponsys::Row do
           'ID_' => '1',
           'TITLE' => 'My Title'
         }
-        expect(@row.to_h).to eq(hash)
+        expect(@row.to_h).to include(hash)
       end
     end
   end

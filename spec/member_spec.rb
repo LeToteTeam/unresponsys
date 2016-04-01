@@ -126,6 +126,19 @@ describe Unresponsys::Member do
         end
       end
     end
+
+    describe '#to_h' do
+      it 'returns the correct hash' do
+        @member.city = 'San Francisco'
+        @member.first_name = 'Kevin'
+        hash = {
+          'EMAIL_ADDRESS_' => 'kwkimball+bar@gmail.com',
+          'CITY_' => 'San Francisco',
+          'FIRST_NAME' => 'Kevin'
+        }
+        expect(@member.to_h).to include(hash)
+      end
+    end
   end
 
 end

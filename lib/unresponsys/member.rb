@@ -31,11 +31,9 @@ class Unresponsys
 
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
-      @changed.uniq.each do |key|
+
+      to_h.each_pair do |key|
         record_data[:fieldNames] << key
-        var = "@#{key.downcase.chomp('_')}".to_sym
-        val = self.instance_variable_get(var)
-        val = val.to_responsys
         record_data[:records][0] << val
       end
 
@@ -91,6 +89,16 @@ class Unresponsys
       def find(name)
         Unresponsys::ExtensionTable.new(@member, name)
       end
+    end
+
+    def to_h
+      hash = {}
+      @changed.uniq.each do |key|
+        var = "@#{key.downcase.chomp('_')}".to_sym
+        val = self.instance_variable_get(var)
+        hash[key] = val.to_responsys
+      end
+      hash
     end
 
     private
