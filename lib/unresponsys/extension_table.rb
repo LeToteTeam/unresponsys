@@ -15,5 +15,13 @@ class Unresponsys
       fields.each_pair { |field, value| row.send("#{field}=", value) }
       row.save
     end
+
+    def supplemental_table?
+      false
+    end
+
+    def extension_table?
+      true
+    end
   end
 end

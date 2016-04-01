@@ -41,7 +41,7 @@ class Unresponsys
         }
       }
 
-      if @table.class == Unresponsys::SupplementalTable
+      if @table.supplemental_table?
         url = "/folders/#{@table.folder.name}/suppData/#{@table.name}"
       else
         options[:body][:matchColumn] = 'RIID'
@@ -51,11 +51,20 @@ class Unresponsys
       options[:body] = options[:body].to_json
       r = client.post(url, options)
 
-      if @table.class == Unresponsys::SupplementalTable
+      if @table.supplemental_table?
         r['errorMessage'].blank?
       else
         r[0]['errorMessage'].blank?
       end
+    end
+
+    def destroy
+      fail 'Not yet implemented' if @table.extension_table?
+
+      options   = { query: { qa: 'ID_', id: @id.to_responsys, fs: 'all' } }
+      response  = @table.client.delete("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
+
+      response['errorMessage'].blank?
     end
 
     # allow to access custom fields on new record

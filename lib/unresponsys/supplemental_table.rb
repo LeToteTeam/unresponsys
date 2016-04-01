@@ -13,6 +13,14 @@ class Unresponsys
       @rows ||= Rows.new(self)
     end
 
+    def supplemental_table?
+      true
+    end
+
+    def extension_table?
+      false
+    end
+
     class Rows
       def initialize(table)
         @table = table
