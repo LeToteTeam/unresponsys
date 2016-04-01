@@ -35,6 +35,15 @@ describe Unresponsys::Row do
         end
       end
     end
-  end
 
+    describe '#to_h' do
+      it 'returns the correct hash' do
+        hash = {
+          'ID_' => '1',
+          'TITLE' => 'My Title'
+        }
+        expect(@row.to_h).to eq(hash)
+      end
+    end
+  end
 end

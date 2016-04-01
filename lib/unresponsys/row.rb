@@ -28,11 +28,8 @@ class Unresponsys
     def save
       record_data = { fieldNames: [], records: [{ fieldValues: [] }], mapTemplateName: nil }
 
-      @fields.each_pair do |key, val|
+      to_h.each_pair do |key, val|
         record_data[:fieldNames] << key
-        var = "@#{key.downcase.chomp('_')}".to_sym
-        val = self.instance_variable_get(var)
-        val = val.to_responsys
         record_data[:records][0][:fieldValues] << val
       end
 
@@ -76,6 +73,16 @@ class Unresponsys
       else
         self.instance_variable_get(var)
       end
+    end
+
+    def to_h
+      hash = {}
+      @fields.each_pair do |key, val|
+        var = "@#{key.downcase.chomp('_')}".to_sym
+        val = self.instance_variable_get(var)
+        hash[key] = val.to_responsys
+      end
+      hash
     end
   end
 end
