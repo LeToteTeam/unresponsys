@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
                               'lib/unresponsys/helpers.rb',
                               'lib/unresponsys/list.rb',
                               'lib/unresponsys/member.rb',
+                              'lib/unresponsys/merge_rule.rb',
                               'lib/unresponsys/row.rb',
                               'lib/unresponsys/supplemental_table.rb',
                               'lib/unresponsys/version.rb'

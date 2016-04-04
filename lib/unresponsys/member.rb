@@ -37,7 +37,7 @@ class Unresponsys
         record_data[:records][0] << val
       end
 
-      options = { body: { recordData: record_data, mergeRule: merge_rule }.to_json }
+      options = { body: { recordData: record_data, mergeRule: MergeRule.new.to_h }.to_json }
       r = client.post("/lists/#{@list.name}/members", options)
       return false if r['recordData']['records'][0][0].include?('MERGEFAILED')
 
@@ -139,22 +139,6 @@ class Unresponsys
         CREATED_DATE_
         MODIFIED_DATE_
       )
-    end
-
-    def merge_rule
-      {
-        insertOnNoMatch:            true,
-        updateOnMatch:              'REPLACE_ALL',
-        matchColumnName1:           'EMAIL_ADDRESS_',
-        matchColumnName2:           nil,
-        matchOperator:              nil,
-        optinValue:                 'I',
-        optoutValue:                'O',
-        defaultPermissionStatus:    'OPTIN',
-        htmlValue:                  'H',
-        textValue:                  'T',
-        rejectRecordIfChannelEmpty: nil,
-      }
     end
   end
 end
