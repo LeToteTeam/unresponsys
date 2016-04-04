@@ -32,7 +32,7 @@ class Unresponsys
     def save
       record_data = { fieldNames: [], records: [[]], mapTemplateName: nil }
 
-      to_h.each_pair do |key|
+      to_h.each do |key, val|
         record_data[:fieldNames] << key
         record_data[:records][0] << val
       end

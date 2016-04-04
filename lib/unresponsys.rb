@@ -1,5 +1,3 @@
-require 'active_support'
-require 'active_support/all'
 require 'unresponsys/client'
 require 'unresponsys/event'
 require 'unresponsys/extension_table'

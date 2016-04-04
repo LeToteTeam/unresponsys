@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   s.post_install_message  = 'responsys sucks :('
 
   s.add_runtime_dependency 'httparty', '>= 0.13.5'
-  s.add_runtime_dependency 'activesupport', '>= 3.0.0'
 
   s.add_development_dependency 'rspec', '>= 3.4.0'
   s.add_development_dependency 'vcr', '>= 3.0.0'
