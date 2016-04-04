@@ -21,7 +21,7 @@ class Object
 end
 
 class String
-  BLANK_RE = /\A[[:space:]]*\z/
+  BLANK_RE = /\A[[:space:]]*\z/ unless defined? BLANK_RE
 
   def is_i?
     return false if self.include?('.')
