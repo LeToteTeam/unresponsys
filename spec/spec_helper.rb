@@ -3,7 +3,6 @@ require 'dotenv'
 require 'unresponsys'
 require 'rspec'
 require 'vcr'
-require 'webmock'
 require 'byebug'
 
 Dotenv.load
