@@ -72,6 +72,28 @@ member.save
 
 Create or update a list member. Returns `true` or `false`
 
+# Messages
+
+### New Message
+
+```
+member = list.members.find('hello@example.com')
+message = member.messages.new('ReferredFriend', referral_code: '123456')
+```
+
+Accepts an campaign name (string) and a hash of key-value properties (optional) which can be used to personalize the email
+
+### Save Message
+
+```
+messages = member.messages.new('ReferredFriend', referral_code: '123456')
+messages.save
+```
+
+Returns `true` on success or throws an error
+
+Sends the message
+
 # Events
 
 ### New event

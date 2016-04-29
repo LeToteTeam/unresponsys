@@ -67,28 +67,12 @@ class Unresponsys
       @events ||= Events.new(self)
     end
 
-    class Events
-      def initialize(member)
-        @member = member
-      end
-
-      def new(event, properties = {})
-        Event.new(member: @member, event: event, properties: properties)
-      end
-    end
-
     def extension_tables
       @extension_tables ||= ExtensionTables.new(self)
     end
 
-    class ExtensionTables
-      def initialize(member)
-        @member = member
-      end
-
-      def find(name)
-        Unresponsys::ExtensionTable.new(@member, name)
-      end
+    def messages
+      @messages ||= Messages.new(self)
     end
 
     def to_h

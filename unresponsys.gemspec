@@ -1,4 +1,4 @@
-$:.unshift(File.join(File.dirname(__FILE__), 'lib'))
+$:.push File.expand_path("../lib", __FILE__)
 require 'unresponsys/version'
 
 Gem::Specification.new do |s|
@@ -7,22 +7,8 @@ Gem::Specification.new do |s|
   s.authors               = ['Kevin Kimball']
   s.email                 = ['kevin@letote.com']
   s.summary               = 'an opinionated Ruby wrapper for Responsys REST API'
-  s.files                 = [
-                              'lib/unresponsys.rb',
-                              'lib/unresponsys/client.rb',
-                              'lib/unresponsys/errors.rb',
-                              'lib/unresponsys/extension_table.rb',
-                              'lib/unresponsys/event.rb',
-                              'lib/unresponsys/folder.rb',
-                              'lib/unresponsys/helpers.rb',
-                              'lib/unresponsys/list.rb',
-                              'lib/unresponsys/member.rb',
-                              'lib/unresponsys/merge_rule.rb',
-                              'lib/unresponsys/row.rb',
-                              'lib/unresponsys/supplemental_table.rb',
-                              'lib/unresponsys/version.rb'
-                            ]
-
+  s.files                 = Dir["{lib}/**/*"]
+  s.test_files            = Dir["{spec}/**/*"]
   s.post_install_message  = 'responsys sucks :('
 
   s.add_runtime_dependency 'httparty', '~> 0.13', '>= 0.13.5'
