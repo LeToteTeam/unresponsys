@@ -90,7 +90,7 @@ class Unresponsys
       raise Unresponsys::AuthenticationError unless response.success?
 
       @options  = { headers: { 'Authorization' => response['authToken'], 'Content-Type' => 'application/json' } }
-      @base_uri = "#{response['endPoint']}/rest/api/v1"
+      @base_uri = "#{response['endPoint']}/rest/api/v1.1"
     end
   end
 end
