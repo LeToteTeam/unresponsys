@@ -1,5 +1,15 @@
 What is the purpose of this gem? It is an [opinionated](https://gettingreal.37signals.com/ch04_Make_Opinionated_Software.php) wrapper for Responsys email marketing software. It uses the new [REST API](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCEB.pdf), while existing gems are wrapping the old SOAP API.
 
+# Contents
+
+1. [Setup](#setup)
+2. [Lists](#lists)
+3. [Members](#members)
+4. [Messages](#messages)
+5. [Events](#events)
+6. [Extension Tables](#extension-tables)
+7. [Supplemental Tables](#supplemental-tables)
+
 # Setup
 
 Initialize your client:
@@ -13,7 +23,9 @@ client = Unresponsys::Client.new(
 
 # Lists
 
-Lists are used to store audience database records—members of your audience might be leads, prospects, customers, contacts, consumers, or visitors, depending on your terminology. The standard set of fields in a list includes:
+From the documentation:
+
+>Lists are used to store audience database records—members of your audience might be leads, prospects, customers, contacts, consumers, or visitors, depending on your terminology. The standard set of fields in a list includes:
 - Recipient ID (RIID), an internalOracle Responsys-assigned identifier that allows the behavior of individual recipients to be tracked over time.
 - Email address, mobile number, postal address, which are standard contact channel fields
 - Permission/Opt-in status fields for the various marketing channels (email, mobile, postal)
@@ -120,7 +132,9 @@ Throws a `Unresponsys::NotFound` if you have not defined the event on the accoun
 
 # Extension Tables
 
-One or more Profile Extension Tables can be associated with a Profile List. There must be a one-to-one relationship between a record in a Profile Extension Table and its parent Profile List. Profile Extension Tables provide an attractive and efficient way to organize and process audience data. Similar to data in Profile Lists, audience data in Profile Extension Tables can be used for segmentation and targeting in Filters as well as Programs
+From the documentation:
+
+> One or more Profile Extension Tables can be associated with a Profile List. There must be a one-to-one relationship between a record in a Profile Extension Table and its parent Profile List. Profile Extension Tables provide an attractive and efficient way to organize and process audience data. Similar to data in Profile Lists, audience data in Profile Extension Tables can be used for segmentation and targeting in Filters as well as Programs
 
 ### Find extension table
 
@@ -145,7 +159,9 @@ Returns `true` or `false`
 
 # Supplemental Tables
 
-As its name indicates, a supplemental table is a collection of database records that supplements a list with additional related information. The connections between a table and a list is made via a data extraction key, or key field, that is present in both the table and the list. Because you define the schema for any tables you create, you can use them for a wide variety of purposes, ranging from message personalization and dynamic content to storing form responses and campaign events.
+From the documentation:
+
+> As its name indicates, a supplemental table is a collection of database records that supplements a list with additional related information. The connections between a table and a list is made via a data extraction key, or key field, that is present in both the table and the list. Because you define the schema for any tables you create, you can use them for a wide variety of purposes, ranging from message personalization and dynamic content to storing form responses and campaign events.
 
 ### Find supplemental table
 
@@ -154,13 +170,10 @@ folder  = client.folders.find('MyFolder')
 table   = folder.supplemental_tables.find('MyTable')
 ```
 
-Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard.
+Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard. This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
 
 Takes a table name (string). Returns an instance of `Unresponsys::SupplementalTable`
 
-# Row
-
-This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
 
 ### Find row
 
