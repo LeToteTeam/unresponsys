@@ -1,5 +1,16 @@
 What is the purpose of this gem? It is an [opinionated](https://gettingreal.37signals.com/ch04_Make_Opinionated_Software.php) wrapper for Responsys email marketing software. It uses the new [REST API](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCEB.pdf), while existing gems are wrapping the old SOAP API.
 
+# Contents
+
+1. [Setup](#setup)
+2. [Lists](#lists)
+3. [Members](#members)
+4. [Messages](#messages)
+5. [Events](#events)
+6. [Extension Tables](#extension-tables)
+7. [Supplemental Tables](#supplemental-tables)
+8. [Rows](#rows)
+
 # Setup
 
 Initialize your client:
@@ -164,7 +175,7 @@ Tables belong to a folder and need to be accessed through it. Tables need to be 
 
 Takes a table name (string). Returns an instance of `Unresponsys::SupplementalTable`
 
-# Row
+# Rows
 
 This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
 
