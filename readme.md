@@ -9,7 +9,6 @@ What is the purpose of this gem? It is an [opinionated](https://gettingreal.37si
 5. [Events](#events)
 6. [Extension Tables](#extension-tables)
 7. [Supplemental Tables](#supplemental-tables)
-8. [Rows](#rows)
 
 # Setup
 
@@ -171,13 +170,10 @@ folder  = client.folders.find('MyFolder')
 table   = folder.supplemental_tables.find('MyTable')
 ```
 
-Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard.
+Tables belong to a folder and need to be accessed through it. Tables need to be created and edited through the dashboard. This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
 
 Takes a table name (string). Returns an instance of `Unresponsys::SupplementalTable`
 
-# Rows
-
-This gem assumes that your table has one primary key, called `ID_`, which is an integer. This can be setup through the dashboard.
 
 ### Find row
 
