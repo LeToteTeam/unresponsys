@@ -36,32 +36,20 @@ class Unresponsys
       handle_error(response)
     end
 
+    def batch(&block)
+      return unless block_given?
+      # instance eval to redefine #get #post #delete ?
+      client = BatchClient.new
+      client.instance_eval { block }
+      client.call
+    end
+
     def folders
       @folders ||= Folders.new(self)
     end
 
     def lists
       @lists ||= Lists.new(self)
-    end
-
-    class Folders
-      def initialize(client)
-        @client = client
-      end
-
-      def find(folder_name)
-        Folder.new(@client, folder_name)
-      end
-    end
-
-    class Lists
-      def initialize(client)
-        @client = client
-      end
-
-      def find(list_name)
-        List.new(@client, list_name)
-      end
     end
 
     private
