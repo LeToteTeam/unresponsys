@@ -1,14 +1,17 @@
 require 'httparty'
+require 'net/http'
+require 'uri'
 
 class Unresponsys
   class Client
+    attr_accessor :token, :endpoint
+
     def initialize(options = {})
       raise Unresponsys::ArgumentError unless options[:username] && options[:password]
       @username = options[:username]
       @password = options[:password]
-      @debug    = options[:debug]
-      @logger   = Logger.new(STDOUT) if @debug
-      @log_opts = { logger: @logger, log_level: :debug, log_format: :curl }
+      @token
+      @endpoint
       authenticate
     end
 
@@ -83,14 +86,34 @@ class Unresponsys
     end
 
     def authenticate
-      headers   = { 'Content-Type' => 'application/x-www-form-urlencoded' }
-      body      = { user_name: @username, password: @password, auth_type: 'password' }
-      response  = HTTParty.post('https://login2.responsys.net/rest/api/v1/auth/token', headers: headers, body: body)
+      uri = URI.parse('https://login2.responsys.net/rest/api/v1/auth/token')
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
 
-      raise Unresponsys::AuthenticationError unless response.success?
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.set_form_data(
+        'user_name' => @username,
+        'password'  => @password,
+        'auth_type' => 'password'
+      )
+      response = http.request(request)
 
-      @options  = { headers: { 'Authorization' => response['authToken'], 'Content-Type' => 'application/json' } }
-      @base_uri = "#{response['endPoint']}/rest/api/v1.1"
+      case response
+      when Net::HTTPSuccess
+        # ↓ for Net::HTTP ↓
+        @token    = JSON.parse(response.body)['authToken']
+        @endpoint = JSON.parse(response.body)['endPoint']
+        # ↓ for HTTParty ↓
+        @options  = {
+          'headers' => {
+            'Authorization' => @token,
+            'Content-Type' => 'application/json'
+            }
+          }
+        @base_uri = "#{@endpoint}/rest/api/v1.1"
+      else
+        raise Unresponsys::AuthenticationError
+      end
     end
   end
 end
