@@ -14,7 +14,7 @@ What is the purpose of this gem? It is an [opinionated](https://gettingreal.37si
 
 Initialize your client:
 
-```
+```ruby
 client = Unresponsys::Client.new(
   username: 'YOUR_USERNAME',
   password: 'YOUR_PASSWORD'
@@ -36,7 +36,7 @@ In addition, lists can have a number of custom, user-defined fields that you use
 
 ### Find a list
 
-```
+```ruby
 client.lists.find('mylist')
 ```
 
@@ -44,7 +44,7 @@ Accepts a list name (string). Returns an `Unresponsys::List` instance
 
 ### Find list member
 
-```
+```ruby
 list = client.lists.find('mylist')
 list.members.find('hello@example.com')
 ```
@@ -55,7 +55,7 @@ Throws an `Unresponsys::NotFound` if no member exists
 
 ### New list member
 
-```
+```ruby
 list = client.lists.find('mylist')
 list.members.new('hello@example.com')
 ```
@@ -76,7 +76,7 @@ You can also create up to 80 custom fields (in the Responsys dashboard) which be
 
 ### Save a member
 
-```
+```ruby
 member = list.members.find('hello@example.com')
 member.some_field = 'blablabla'
 member.save
@@ -88,7 +88,7 @@ Create or update a list member. Returns `true` or `false`
 
 ### New Message
 
-```
+```ruby
 member = list.members.find('hello@example.com')
 message = member.messages.new('ReferredFriend', referral_code: '123456')
 ```
@@ -97,9 +97,9 @@ Accepts an campaign name (string) and a hash of key-value properties (optional) 
 
 ### Save Message
 
-```
-messages = member.messages.new('ReferredFriend', referral_code: '123456')
-messages.save
+```ruby
+message = member.messages.new('ReferredFriend', referral_code: '123456')
+message.save
 ```
 
 Returns `true` on success or throws an error
@@ -110,7 +110,7 @@ Sends the message
 
 ### New event
 
-```
+```ruby
 member = list.members.find('hello@example.com')
 event = member.events.new('ReferredFriend')
 ```
@@ -121,7 +121,7 @@ Custom events must be defined on the account page of the Responsys dashboard bef
 
 ### Save event
 
-```
+```ruby
 event = member.events.new('ReferredFriend')
 event.save
 ```
@@ -138,7 +138,7 @@ From the documentation:
 
 ### Find extension table
 
-```
+```ruby
 member = list.members.find('hello@example.com')
 table = member.extension_tables.find('MyExtensionTable')
 ```
@@ -149,7 +149,7 @@ Takes a table name (string). Returns an instance of `Unresponsys::ExtensionTable
 
 ### Update extension table
 
-```
+```ruby
 member = list.members.find('hello@example.com')
 table = member.extension_tables.find('MyExtensionTable')
 table.update(favorite_color: 'blue')
@@ -165,7 +165,7 @@ From the documentation:
 
 ### Find supplemental table
 
-```
+```ruby
 folder  = client.folders.find('MyFolder')
 table   = folder.supplemental_tables.find('MyTable')
 ```
@@ -177,7 +177,7 @@ Takes a table name (string). Returns an instance of `Unresponsys::SupplementalTa
 
 ### Find row
 
-```
+```ruby
 table = folder.supplemental_tables.find('MyTable')
 table.rows.find(123)
 ```
@@ -186,7 +186,7 @@ Takes an id (integer). Returns an instance of `Unresponsys::Row` or throws an `U
 
 ### New row
 
-```
+```ruby
 table = folder.supplemental_tables.find('MyTable')
 table.rows.new(124)
 ```
@@ -195,7 +195,7 @@ Takes an id (integer). Returns an instance of `Unresponsys::Row`
 
 ### Save row
 
-```
+```ruby
 row = table.rows.find(123)
 row.title = 'My Title'
 row.save
@@ -205,7 +205,7 @@ Returns `true` or `false`
 
 ### Destroy row
 
-```
+```ruby
 row = table.rows.find(123)
 row.destroy
 ```
