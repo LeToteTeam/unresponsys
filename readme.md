@@ -10,7 +10,7 @@ What is the purpose of this gem? It is an [opinionated](https://gettingreal.37si
 6. [Extension Tables](#extension-tables)
 7. [Supplemental Tables](#supplemental-tables)
 
-# Setup
+## Setup
 
 Initialize your client:
 
@@ -21,7 +21,7 @@ client = Unresponsys::Client.new(
 )
 ```
 
-# Lists
+## Lists
 
 From the documentation:
 
@@ -62,7 +62,7 @@ list.members.new('hello@example.com')
 
 Accepts an email address (string). Returns an `Unresponsys::Member` instance
 
-# Members
+## Members
 
 Members belong to a particular list and can be instantiated through that list
 
@@ -84,7 +84,7 @@ member.save
 
 Create or update a list member. Returns `true` or `false`
 
-# Messages
+## Messages
 
 ### New Message
 
@@ -106,7 +106,7 @@ Returns `true` on success or throws an error
 
 Sends the message
 
-# Events
+## Events
 
 ### New event
 
@@ -130,7 +130,7 @@ Returns `true` on success or throws an error
 
 Throws a `Unresponsys::NotFound` if you have not defined the event on the account page of the Responsys dashboard
 
-# Extension Tables
+## Extension Tables
 
 From the documentation:
 
@@ -157,7 +157,7 @@ table.update(favorite_color: 'blue')
 
 Returns `true` or `false`
 
-# Supplemental Tables
+## Supplemental Tables
 
 From the documentation:
 
