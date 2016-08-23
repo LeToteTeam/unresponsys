@@ -17,9 +17,12 @@ Initialize your client:
 ```ruby
 client = Unresponsys::Client.new(
   username: 'YOUR_USERNAME',
-  password: 'YOUR_PASSWORD'
+  password: 'YOUR_PASSWORD',
+  interact: 2||5
 )
 ```
+
+The `interact` option is optional, and can be either 2 or 5. If omitted, it will default to 2.
 
 ## Lists
 
