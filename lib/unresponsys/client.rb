@@ -4,8 +4,10 @@ class Unresponsys
   class Client
     def initialize(options = {})
       raise Unresponsys::ArgumentError unless options[:username] && options[:password]
+      raise Unresponsys::ArgumentError unless [nil, 2, 5].include?(options[:interact])
       @username = options[:username]
       @password = options[:password]
+      @interact = options.fetch(:interact, 2)
       @debug    = options[:debug]
       @logger   = Logger.new(STDOUT) if @debug
       @log_opts = { logger: @logger, log_level: :debug, log_format: :curl }
@@ -85,7 +87,8 @@ class Unresponsys
     def authenticate
       headers   = { 'Content-Type' => 'application/x-www-form-urlencoded' }
       body      = { user_name: @username, password: @password, auth_type: 'password' }
-      response  = HTTParty.post('https://login2.responsys.net/rest/api/v1/auth/token', headers: headers, body: body)
+      host      = "login#{@interact}.responsys.net"
+      response  = HTTParty.post("https://#{host}/rest/api/v1/auth/token", headers: headers, body: body)
 
       raise Unresponsys::AuthenticationError unless response.success?
 
