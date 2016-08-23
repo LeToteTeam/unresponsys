@@ -4,6 +4,7 @@ class Unresponsys
   class Client
     def initialize(options = {})
       raise Unresponsys::ArgumentError unless options[:username] && options[:password]
+      raise Unresponsys::ArgumentError unless [nil, 2, 5].include?(options[:interact])
       @username = options[:username]
       @password = options[:password]
       @interact = options.fetch(:interact, 2)
