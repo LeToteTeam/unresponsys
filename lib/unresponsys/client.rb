@@ -72,13 +72,13 @@ class Unresponsys
       if response.is_a?(Hash) && response.keys.include?('errorCode')
         case response['errorCode']
         when /TOKEN_EXPIRED/
-          raise Unresponsys::TokenExpired, response['detail']
+          raise Unresponsys::TokenExpired, format_error_message(response['title'], response['detail'])
         when /NOT_FOUND/
-          raise Unresponsys::NotFound, response['detail']
+          raise Unresponsys::NotFound, format_error_message(response['title'], response['detail'])
         when /LIMIT_EXCEEDED/
-          raise Unresponsys::LimitExceeded, response['detail']
+          raise Unresponsys::LimitExceeded, format_error_message(response['title'], response['detail'])
         else
-          raise Unresponsys::Error, "#{response['title']}: #{response['detail']}"
+          raise Unresponsys::Error, format_error_message(response['title'], response['detail'])
         end
       end
       response
@@ -94,6 +94,11 @@ class Unresponsys
 
       @options  = { headers: { 'Authorization' => response['authToken'], 'Content-Type' => 'application/json' } }
       @base_uri = "#{response['endPoint']}/rest/api/v1.1"
+    end
+
+    def format_error_message(title, detail)
+      return title if detail.to_s.strip.empty?
+      "#{title}: #{detail}"
     end
   end
 end
