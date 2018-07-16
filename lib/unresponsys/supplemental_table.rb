@@ -26,8 +26,14 @@ class Unresponsys
         @table = table
       end
 
-      def find(primary_key)
-        options = { query: { qa: 'ID_', id: primary_key.to_responsys, fs: 'all' } }
+      def find(primary_keys)
+        params = { fs: 'all', qa: primary_keys.keys, id: primary_keys.values }
+        query = "?"
+        params.each do |key, value|
+          query += "&"
+          query += [value].flatten.map { |value| "#{key}=#{value}" }.join('&')
+        end
+        options = { query: query }
         r       = @table.client.get("/folders/#{@table.folder.name}/suppData/#{@table.name}/members", options)
 
         fields = {}
@@ -38,8 +44,13 @@ class Unresponsys
         Unresponsys::Row.new(@table, fields)
       end
 
-      def new(primary_key)
-        Unresponsys::Row.new(@table, { 'ID_' => primary_key })
+      def new(primary_keys = {})
+        options = {}
+        primary_keys.each do |key, value|
+          options[key] = value unless value.nil?
+        end
+
+        Unresponsys::Row.new(@table, options)
       end
     end
   end

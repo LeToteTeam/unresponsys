@@ -26,7 +26,7 @@ describe Unresponsys::SupplementalTable do
   end
 
   it '#rows.new returns an instance of Row' do
-    row = @table.rows.new(2)
+    row = @table.rows.new('ID_' => 2)
     expect(row).to be_an_instance_of(Unresponsys::Row)
   end
 
