@@ -1,6 +1,6 @@
 What is the purpose of this gem? It is an [opinionated](https://gettingreal.37signals.com/ch04_Make_Opinionated_Software.php) wrapper for Responsys email marketing software. It uses the new [REST API](https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCEB.pdf), while existing gems are wrapping the old SOAP API.
 
-# Contents
+# Contents he
 
 1. [Setup](#setup)
 2. [Lists](#lists)
